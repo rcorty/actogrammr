@@ -14,3 +14,6 @@ bin_data(data, minutes_per_bin)
 \value{
 the data, after binning
 }
+\description{
+function to bin data time-wise
+}

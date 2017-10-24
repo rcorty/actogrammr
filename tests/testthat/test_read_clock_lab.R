@@ -3,9 +3,8 @@ context('Testing read_clock_lab')
 test_that(desc = 'read_clock_lab',
           code = {
 
-            d <- read_clock_lab_files(file_names = list.files(path = '../../test_data/',
-                                                              full.names = TRUE))
-
+            f <- file.path(system.file(package = 'actogrammr'), 'testdata')
+            d <- read_clock_lab_files(file_names = list.files(path = f, full.names = TRUE))
 
             expect_is(object = d, class = 'tbl_df')
             expect_is(object = d$date, class = 'Date')

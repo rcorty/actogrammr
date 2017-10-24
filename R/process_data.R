@@ -5,6 +5,8 @@
 #'
 #' @return the data, after binning
 #'
+#' @description function to bin data time-wise
+#'
 #' @importFrom dplyr %>%
 #'
 #' @export
@@ -13,6 +15,8 @@ bin_data <- function(data,
                      minutes_per_bin) {
 
   stopifnot(minutes_per_bin %in% c(2, 3, 4, 5, 6, 10, 12, 15, 20, 30))
+
+  file_name <- hour <- bin <- act <- light <- 'fake_global_for_CRAN'
 
   data %>%
     dplyr::mutate(bin = (min - 1) %/% minutes_per_bin) %>%

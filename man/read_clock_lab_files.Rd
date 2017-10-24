@@ -13,3 +13,6 @@ Should be the result of a call to list.files(..., full.names = TRUE)}
 \value{
 a big data.frame
 }
+\description{
+reads binary files in clocklab format
+}

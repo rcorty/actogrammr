@@ -4,6 +4,9 @@
 #'   Should be the result of a call to list.files(..., full.names = TRUE)
 #'
 #' @return a big data.frame
+#'
+#' @description reads binary files in clocklab format
+#'
 #' @export
 #'
 read_clock_lab_files <- function(file_names) {
@@ -34,6 +37,8 @@ read_clock_lab_files <- function(file_names) {
 
 
 read_clock_lab_file <- function(file_name) {
+
+  act <- act_1 <- act_60 <- light <- light_1 <- light_60 <- trash <- 'fake_global_for_CRAN'
 
   file_name_byte_length <- 4
   bytes_per_hours_data <- 172
