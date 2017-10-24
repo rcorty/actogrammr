@@ -17,3 +17,8 @@ the data, after binning
 \description{
 function to bin data time-wise
 }
+\examples{
+f <- file.path(system.file(package = 'actogrammr'), 'testdata')
+d <- read_clock_lab_files(file_names = list.files(path = f, full.names = TRUE))
+b <- bin_data(data = d, minutes_per_bin = 6)
+}

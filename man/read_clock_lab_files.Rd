@@ -16,3 +16,7 @@ a big data.frame
 \description{
 reads binary files in clocklab format
 }
+\examples{
+f <- file.path(system.file(package = 'actogrammr'), 'testdata')
+d <- read_clock_lab_files(file_names = list.files(path = f, full.names = TRUE))
+}

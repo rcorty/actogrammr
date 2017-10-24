@@ -10,6 +10,12 @@
 #'
 #' @export
 #'
+#' @examples
+#' f <- file.path(system.file(package = 'actogrammr'), 'testdata')
+#' d <- read_clock_lab_files(file_names = list.files(path = f, full.names = TRUE))
+#' b <- bin_data(data = d, minutes_per_bin = 6)
+#' plot_actogram(data = b, start_date = '2010-01-01')
+
 plot_actogram <- function(data,
                           start_date = min(data$date),
                           end_date = max(data$date)) {
