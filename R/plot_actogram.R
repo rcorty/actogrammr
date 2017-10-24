@@ -9,14 +9,15 @@
 #' @export
 #'
 plot_actogram <- function(data,
-                          start_time = min(data$date),
-                          end_time = max(data$date)) {
+                          start_date = min(data$date),
+                          end_date = max(data$date)) {
 
   data %>%
-    dplyr::filter(date > start_time, date < end_time) %>%
+    dplyr::filter(date > start_date, date < end_date) %>%
     ggplot2::ggplot(mapping = ggplot2::aes(x = interaction(bin, hour),
                                            y = interaction(date, file_name),
                                            fill = bin_act)) +
-    ggplot2::geom_tile()
+    ggplot2::geom_tile() +
+    ggplot2::scale_fill_continuous(low = 'white', high = 'darkblue')
 }
 
