@@ -38,19 +38,22 @@ read_clock_lab_file <- function(file_name) {
   file_name_byte_length <- 4
   bytes_per_hours_data <- 172
 
-  file_name_offset_start <- 4
-  file_name_offset_end <- 23
+  file_name_start <- 4
+  file_name_end <- 23
 
-  date_offset_start <- 28
-  date_offset_end <- 37
+  date_start <- 28
+  date_end <- 37
+
+  seconds_start <- 38
+  seconds_end <- 41
 
   hour_offset <- 42
 
-  counts_offset_start <- 48
-  counts_offset_end <- 107
+  counts_start <- 48
+  counts_end <- 107
 
-  light_offset_start <- 112
-  light_offset_end <- 171
+  light_start <- 112
+  light_end <- 171
 
   data <- readr::read_file_raw(file = file_name)
 
@@ -61,32 +64,46 @@ read_clock_lab_file <- function(file_name) {
 
   num_hours <- num_hours <- (data_length - file_name_byte_length)/bytes_per_hours_data
 
-  filenames <- dates <- hours <- acts <- lights <- list()
+  filenames <- dates <- hours <- seconds <- acts <- lights <- list()
 
   for (hour in 1:num_hours) {
 
     hour_start <- (hour - 1)*bytes_per_hours_data + 5
 
-    filenames[[hour]] <- readBin(con = data[hour_start + (file_name_offset_start:file_name_offset_end)],
-                                 what = 'character')
+    filenames[[hour]] <- readBin(con = data[hour_start + (file_name_start:file_name_end)],
+                                 what = 'character',
+                                 endian = 'big')
 
-    dates[[hour]] <- readBin(con = data[hour_start + (date_offset_start:date_offset_end)],
-                             what = 'character')
+    dates[[hour]] <- readBin(con = data[hour_start + (date_start:date_end)],
+                             what = 'character',
+                             endian = 'big')
 
     hours[[hour]] <- readBin(con = data[hour_start + hour_offset],
                              what = 'integer',
                              n = 1,
-                             size = 1)
+                             size = 1,
+                             endian = 'big')
 
-    acts[[hour]] <- readBin(con = data[hour_start + (counts_offset_start:counts_offset_end)],
+    # browser()
+    # doesn't work -- need to read a 4-byte unsigned int
+    # seconds[[hour]] <- readBin(con = data[hour_start + (seconds_start:seconds_end)],
+    #                            what = 'integer',
+    #                            size = 2,
+    #                            n = 1,
+    #                            endian = 'big',
+    #                            signed = FALSE)
+
+    acts[[hour]] <- readBin(con = data[hour_start + (counts_start:counts_end)],
                             what = 'integer',
                             n = 60,
-                            size = 1)
+                            size = 1,
+                            endian = 'big')
 
-    lights[[hour]] <- readBin(con = data[hour_start + (light_offset_start:light_offset_end)],
+    lights[[hour]] <- readBin(con = data[hour_start + (light_start:light_end)],
                               what = 'integer',
                               n = 60,
-                              size = 1)
+                              size = 1,
+                              endian = 'big')
   }
 
   stopifnot(all(is.character(unlist(x = filenames))))
@@ -100,9 +117,11 @@ read_clock_lab_file <- function(file_name) {
 
   wide_data <- cbind(data.frame(file_name = file_name,
                                 date = lubridate::mdy(unlist(dates)),
-                                hour = unlist(hours)),
-                     acts,
-                     lights)
+                                hour = unlist(hours)
+                                #,second = unlist(seconds)
+                                ),
+  acts,
+  lights)
 
   long_act <- wide_data %>%
     dplyr::select(-dplyr::matches('light')) %>%
