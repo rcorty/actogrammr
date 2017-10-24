@@ -8,11 +8,6 @@
 #'
 read_clock_lab_files <- function(file_names) {
 
-
-  if (length(files_names) == 1) {
-    return(read_clock_lab_file(file_names))
-  }
-
   mouse_data <- list()
   for (file_name in file_names) {
 
@@ -23,6 +18,8 @@ read_clock_lab_files <- function(file_names) {
   return(do.call(what = rbind,
                  args = mouse_data))
 }
+
+
 
 
 read_clock_lab_file <- function(file_name) {
