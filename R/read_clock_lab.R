@@ -15,9 +15,19 @@ read_clock_lab_files <- function(file_names) {
 
   }
 
+  d <- do.call(what = rbind,
+               args = mouse_data)
 
-  return(do.call(what = rbind,
-                 args = mouse_data))
+  # don't know what to do with very rare act = -61, just set to NA
+  # 1 such row in test data (4 mice, 90 days per mouse)
+  d$act[d$act < -1] <- NA
+
+  # not sure waht act = -1 means...probably some error code
+  # like "couldn't measure activity"
+  # 24 such rows in test data (4 mice, 90 days per mouse)
+  d$act[d$act == -1] <- NA
+
+  return(d)
 }
 
 
