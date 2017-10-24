@@ -2,7 +2,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Travis-CI Build Status](https://travis-ci.org/rcorty/actogrammr.svg?branch=master)](https://travis-ci.org/rcorty/actogrammr)
 
-<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/rcorty/actogrammr/master.svg)](https://codecov.io/github/rcorty/actogrammr?branch=master) -->
+[![Coverage Status](https://img.shields.io/codecov/c/github/rcorty/actogrammr/master.svg)](https://codecov.io/github/rcorty/actogrammr?branch=master)
+
 actogrammr
 ==========
 
