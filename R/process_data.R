@@ -16,9 +16,10 @@ bin_data <- function(data,
 
   data %>%
     dplyr::mutate(bin = (min - 1) %/% minutes_per_bin) %>%
-    group_by(file_name, date, hour, bin) %>%
-    summarise(bin_act = sum(act),
-              bin_light = sum(light)) %>%
+    dpyr::group_by(file_name, date, hour, bin) %>%
+    dplyr::summarise(bin_act = sum(act),
+                     bin_light = sum(light)) %>%
+    dplyr::ungroup() %>%
     return()
 
 }
