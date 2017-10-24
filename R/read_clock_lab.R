@@ -15,6 +15,7 @@ read_clock_lab_files <- function(file_names) {
 
   }
 
+
   return(do.call(what = rbind,
                  args = mouse_data))
 }
@@ -82,16 +83,36 @@ read_clock_lab_file <- function(file_name) {
   stopifnot(length(unique(unlist(x = filenames))) == 1)
 
   acts <- do.call(what = rbind, args = acts)
-  colnames(acts) <- paste0('act_min', 1:60)
+  colnames(acts) <- paste0('act_', 1:60)
 
   lights <- do.call(what = rbind, args = lights)
-  colnames(lights) <- paste0('light_min', 1:60)
+  colnames(lights) <- paste0('light_', 1:60)
 
-  return <- cbind(data.frame(file_name = file_name,
-                             date = unlist(dates),
-                             hour = unlist(hours)),
-                  acts,
-                  lights)
+  wide_data <- cbind(data.frame(file_name = file_name,
+                                date = unlist(dates),
+                                hour = unlist(hours)),
+                     acts,
+                     lights)
+
+  long_act <- wide_data %>%
+    dplyr::select(-dplyr::matches('light')) %>%
+    tidyr::gather(key = min,
+                  value = act,
+                  act_1:act_60)
+
+  long_light <- wide_data %>%
+    dplyr::select(-dplyr::matches('act')) %>%
+    tidyr::gather(key = min,
+                  value = light,
+                  light_1:light_60)
+
+  long_act %>%
+    tidyr::separate(col = min, into = c('trash', 'min')) %>%
+    dplyr::select(-trash) %>%
+    dplyr::mutate(min = as.integer(min),
+                  light = long_light$light) %>%
+    return()
+
 }
 
 
