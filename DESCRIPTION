@@ -3,7 +3,9 @@ Type: Package
 Title: Read in Activity Data and Plot Actograms
 Version: 0.2.0
 Authors@R: person("Robert", "Corty", email = "rcorty@gmail.com", role = c("aut", "cre"))
-Description: None yet.
+Description: Read in activity measurements from standard file formats
+  used by circadian rhythm researchers, currently only ClockLab format,
+  and process and plot the data.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
