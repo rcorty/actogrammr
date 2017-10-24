@@ -89,7 +89,7 @@ read_clock_lab_file <- function(file_name) {
   colnames(lights) <- paste0('light_', 1:60)
 
   wide_data <- cbind(data.frame(file_name = file_name,
-                                date = unlist(dates),
+                                date = lubridate::mdy(unlist(dates)),
                                 hour = unlist(hours)),
                      acts,
                      lights)
@@ -107,6 +107,7 @@ read_clock_lab_file <- function(file_name) {
                   light_1:light_60)
 
   long_act %>%
+    dplyr::as_data_frame() %>%
     tidyr::separate(col = min, into = c('trash', 'min')) %>%
     dplyr::select(-trash) %>%
     dplyr::mutate(min = as.integer(min),
