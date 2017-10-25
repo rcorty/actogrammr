@@ -1,7 +1,7 @@
 Package: actogrammr
 Type: Package
 Title: Read in Activity Data and Plot Actograms
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: person("Robert", "Corty", email = "rcorty@gmail.com", role = c("aut", "cre"))
 Description: Read in activity measurements from standard file formats
   used by circadian rhythm researchers, currently only 'ClockLab' format,
