@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' f <- file.path(system.file(package = 'actogrammr'), 'testdata')
-#' d <- read_clock_lab_files(file_names = list.files(path = f, full.names = TRUE))
+#' d <- read_clock_lab_file(file_name = list.files(path = f, full.names = TRUE)[1])
 #' b <- bin_data(data = d, minutes_per_bin = 6)
 
 bin_data <- function(data,
@@ -24,7 +24,7 @@ bin_data <- function(data,
   file_name <- hour <- bin <- act <- light <- 'fake_global_for_CRAN'
 
   data %>%
-    dplyr::mutate(bin = (min - 1) %/% minutes_per_bin) %>%
+    dplyr::mutate(bin = as.integer((min - 1) %/% minutes_per_bin)) %>%
     dplyr::group_by(file_name, date, hour, bin) %>%
     dplyr::summarise(bin_act = sum(act),
                      bin_light = sum(light)) %>%
