@@ -13,27 +13,47 @@ knitr::opts_chunk$set(
 ```
 
 [![Travis-CI Build Status](https://travis-ci.org/rcorty/actogrammr.svg?branch=master)](https://travis-ci.org/rcorty/actogrammr)
-
-<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/rcorty/actogrammr/master.svg)](https://codecov.io/github/rcorty/actogrammr?branch=master) -->
+[![Coverage Status](https://img.shields.io/codecov/c/github/rcorty/actogrammr/master.svg)](https://codecov.io/github/rcorty/actogrammr?branch=master)
 
 
 # actogrammr
 
-The goal of actogrammr is to ...
+The goal of actogrammr is to read in data on cirdacian activity, process it, and plot it, e.g. in an actogram.
 
 ## Installation
 
-You can install actogrammr from github with:
+You can install the latest release of actogrammr with:
+
+```{r cran-installation, eval = FALSE}
+install.packages(pkgs = 'actogrammr')
+```
+
+Or, if you want the newest features, you can install from github:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("rcorty/actogrammr")
 ```
 
-## Example
+## Data Import
 
-This is a basic example which shows you how to solve a common problem:
+```{r example, eval = FALSE}
+library(actogrammr)
 
-```{r example}
-## basic example code
+f <- file.path(system.file(package = 'actogrammr'), 'testdata')
+d <- read_clock_lab_file(file_name = list.files(path = f, full.names = TRUE)[1])
+```
+
+
+## Data Processing
+
+```{r bin-data, eval = FALSE}
+b <- bin_data(data = d, minutes_per_bin = 6)
+```
+
+
+## Plotting
+
+```{r plot-actogram, eval = FALSE}
+plot_actogram(data = b, start_date = '2010-01-01')
 ```
