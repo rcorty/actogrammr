@@ -2,5 +2,6 @@
 
 export(bin_data)
 export(plot_actogram)
+export(read_clock_lab_file)
 export(read_clock_lab_files)
 importFrom(dplyr,"%>%")
