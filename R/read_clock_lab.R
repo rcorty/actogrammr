@@ -25,20 +25,26 @@ read_clock_lab_files <- function(file_names) {
   d <- do.call(what = rbind,
                args = mouse_data)
 
-  # don't know what to do with very rare act = -61, just set to NA
-  # 1 such row in test data (4 mice, 90 days per mouse)
-  d$act[d$act < -1] <- NA
-
-  # not sure waht act = -1 means...probably some error code
-  # like "couldn't measure activity"
-  # 24 such rows in test data (4 mice, 90 days per mouse)
-  d$act[d$act == -1] <- NA
-
   return(d)
 }
 
 
 
+
+#' @title read_clock_lab_file
+#'
+#' @param file_name the name of the file to read, should represent one mouse.
+#'   Should be the result of a call to list.files(..., full.names = TRUE)
+#'
+#' @return a big data.frame
+#'
+#' @description reads a binary file in clocklab format
+#'
+#' @export
+#'
+#' @examples
+#' f <- file.path(system.file(package = 'actogrammr'), 'testdata')
+#' d <- read_clock_lab_file(file_name = list.files(path = f, full.names = TRUE)[1])
 
 read_clock_lab_file <- function(file_name) {
 
@@ -144,14 +150,23 @@ read_clock_lab_file <- function(file_name) {
                   value = light,
                   light_1:light_60)
 
-  long_act %>%
+  d <- long_act %>%
     dplyr::as_data_frame() %>%
     tidyr::separate(col = min, into = c('trash', 'min')) %>%
     dplyr::select(-trash) %>%
     dplyr::mutate(min = as.integer(min),
-                  light = long_light$light) %>%
-    return()
+                  light = long_light$light)
 
+  # don't know what to do with very rare act = -61, just set to NA
+  # 1 such row in test data (4 mice, 90 days per mouse)
+  d$act[d$act < -1] <- NA
+
+  # not sure waht act = -1 means...probably some error code
+  # like "couldn't measure activity"
+  # 24 such rows in test data (4 mice, 90 days per mouse)
+  d$act[d$act == -1] <- NA
+
+  return(d)
 }
 
 
